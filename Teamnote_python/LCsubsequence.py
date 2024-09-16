@@ -18,8 +18,10 @@ def LCseq(string_A, string_B, dp):
         elif dp[len_A][len_B - 1] == cnt:
             len_B -= 1
         else: # else append self
-            arr.append(string_A[len_A - 1])
+            arr.append(string_A[len_A-1])
             cnt -= 1
+            len_A -= 1
+            len_B -= 1
     
     lcs = ''.join(reversed(arr))
 
