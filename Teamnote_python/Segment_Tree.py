@@ -103,68 +103,67 @@ class SegmentTreeProduct:
             right //= 2
         return result
     
-class LazySegmentTree: #rangesum with lazy propagation
+class LazySegmentTreeSum:
     def __init__(self, data):
         self.n = len(data)
-        self.tree = [0] * (2 * self.n)
-        self.lazy = [0] * (2 * self.n)
+        self.size = 1
+        while self.size < self.n:
+            self.size <<= 1
+        self.tree = [0] * (2 * self.size)
+        self.lazy = [0] * (2 * self.size)
         self.build_tree(data)
     
     def build_tree(self, data):
         for i in range(self.n):
-            self.tree[self.n + i] = data[i]
-        for i in range(self.n - 1, 0, -1):
-            self.tree[i] = self.tree[i * 2] + self.tree[i * 2 + 1]
-
-    def update_range(self, left, right, value): #Outer function for update
-        self._update_range(left, right, value, 0, self.n - 1, 1)
-
-    def _update_range(self, left, right, value, start, end, node): #Inner function for update, lazy
+            self.tree[self.size + i] = data[i]
+        for i in range(self.size - 1, 0, -1):
+            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]
+    
+    def push(self, node, node_left, node_right): #lazy to main
         if self.lazy[node] != 0:
-            self.tree[node] += (end - start + 1) * self.lazy[node]
-            if start != end:
-                self.lazy[node * 2] += self.lazy[node]
-                self.lazy[node * 2 + 1] += self.lazy[node]
+            self.tree[node] += self.lazy[node] * (node_right - node_left + 1)
+            if node < self.size:
+                self.lazy[2 * node] += self.lazy[node]
+                self.lazy[2 * node + 1] += self.lazy[node]
             self.lazy[node] = 0
 
-        if left > end or right < start:
-            return None
-
-        if left <= start and end <= right:
-            self.tree[node] += (end - start + 1) * value
-            if start != end:
-                self.lazy[node * 2] += value
-                self.lazy[node * 2 + 1] += value
-            return None
-
-        mid = (start + end) // 2
-        self._update_range(left, right, value, start, mid, node * 2)
-        self._update_range(left, right, value, mid + 1, end, node * 2 + 1)
-        self.tree[node] = self.tree[node * 2] + self.tree[node * 2 + 1]
+    def range_update(self, left, right, value):
+        self._range_update(1, 0, self.size - 1, left, right, value)
+    
+    def _range_update(self, node, node_left, node_right, left, right, value):
+        self.push(node, node_left, node_right)
+        
+        if right < node_left or node_right < left:
+            return
+        
+        if left <= node_left and node_right <= right:
+            self.lazy[node] += value
+            self.push(node, node_left, node_right)
+            return
+        
+        mid = (node_left + node_right) // 2
+        self._range_update(2 * node, node_left, mid, left, right, value)
+        self._range_update(2 * node + 1, mid + 1, node_right, left, right, value)
+        self.tree[node] = self.tree[2 * node] + self.tree[2 * node + 1]
 
     def range_sum(self, left, right):
-        return self._range_sum(left, right, 0, self.n - 1, 1)
-
-    def _range_sum(self, left, right, start, end, node):
-        if self.lazy[node] != 0:
-            self.tree[node] += (end - start + 1) * self.lazy[node]
-            if start != end:
-                self.lazy[node * 2] += self.lazy[node]
-                self.lazy[node * 2 + 1] += self.lazy[node]
-            self.lazy[node] = 0
-
-        if left > end or right < start:
+        return self._range_sum(1, 0, self.size - 1, left, right)
+    
+    def _range_sum(self, node, node_left, node_right, left, right):
+        self.push(node, node_left, node_right)
+        
+        if right < node_left or node_right < left:
             return 0
-
-        if left <= start and end <= right:
+        
+        if left <= node_left and node_right <= right:
             return self.tree[node]
-
-        mid = (start + end) // 2
-        left_sum = self._range_sum(left, right, start, mid, node * 2)
-        right_sum = self._range_sum(left, right, mid + 1, end, node * 2 + 1)
+        
+        mid = (node_left + node_right) // 2
+        left_sum = self._range_sum(2 * node, node_left, mid, left, right)
+        right_sum = self._range_sum(2 * node + 1, mid + 1, node_right, left, right)
         return left_sum + right_sum
     
 N, M, K = isi()
 data = [ii() for _ in range(N)]
-seg_tree = LazySegmentTree(data)
+seg_tree = LazySegmentTreeSum(data)
 seg_tree.update_range(1,4,5)
