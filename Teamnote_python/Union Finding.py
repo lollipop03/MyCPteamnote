@@ -1,6 +1,8 @@
+'''Union Finding'''
+
 class DisjointSet:
     def __init__(self, n):
-        self.parent = [i for i in range(n)]
+        self.parent = [i for i in range(n)] #initiall joint - alone
     
     def find(self, index1):
         if self.parent[index1] != index1:
@@ -19,7 +21,6 @@ class DisjointSet:
     def is_union(self, index1, index2):
         return self.find(index1) == self.find(index2)
 
-# Example
 n = int(input())
 ds = DisjointSet(n)
 ds.union(0, 3)
