@@ -22,7 +22,7 @@ class PBDS:
         if 0 <= k < len(self._data):
             return self._data[k]
 
-    def order_of_key(self, key):
+    def rank(self, key):
         return bisect.bisect_left(self._data, key)
 
     def __iter__(self):
