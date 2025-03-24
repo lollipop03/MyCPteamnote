@@ -1,4 +1,9 @@
-def ccw(x1, y1, x2, y2, x3, y3):
+from Math import atan2
+
+def ccw(dot1, dot2, dot3):
+    x1, y1 = dot1
+    x2, y2 = dot2
+    x3, y3 = dot3
     ccw = x1*y2 + x2*y3 + x3*y1 - x2*y1 - x3*y2 - x1*y3
     if ccw < 0:
         return -1
@@ -13,10 +18,10 @@ def graham_scan(Dots):
     Dots.sort(key=lambda p: (atan2(p[1] - start[1], p[0] - start[0]), p[0], p[1]))
     
     hull = []
-    for dot in Dots:
-        while len(hull) >= 2 and cross_product(hull[-2], hull[-1], dot) <= 0:
+    for i in Dots:
+        while len(hull) >= 2 and ccw(hull[-2], hull[-1], i) <= 0:
             hull.pop()
-        hull.append(dot)
+        hull.append(i)
     
     return {p[2] for p in hull}
 
