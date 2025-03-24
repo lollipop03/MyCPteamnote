@@ -15,7 +15,7 @@ def ccw(dot1, dot2, dot3):
 def graham_scan(Dots):
     start = min(Dots, key=lambda p: (p[1], p[0]))
     
-    Dots.sort(key=lambda p: (atan2(p[1] - start[1], p[0] - start[0]), p[0], p[1]))
+    Dots.sort(key=lambda p: (atan2(p[1] - start[1], p[0] - start[0]), p[1], p[0]))
     
     hull = []
     for i in Dots:
@@ -26,15 +26,15 @@ def graham_scan(Dots):
     return {p[2] for p in hull}
 
 def solve():
-    N = int(input())
+    N = ii()
     Dots = []
     
     for i in range(N):
         x, y = isi()
         Dots.append([x, y, i + 1])
     
-    result = graham_scan(Dots)
-    return " ".join(map(str, sorted(result)))
+    ans = graham_scan(Dots)
+    return " ".join(map(str, sorted(ans)))
 
 if __name__ == "__main__":
     print(solve())
