@@ -1,9 +1,9 @@
 from Math import atan2
 
 def ccw(dot1, dot2, dot3):
-    x1, y1 = dot1
-    x2, y2 = dot2
-    x3, y3 = dot3
+    x1, y1, _ = dot1
+    x2, y2, _ = dot2
+    x3, y3, _ = dot3
     ccw = x1*y2 + x2*y3 + x3*y1 - x2*y1 - x3*y2 - x1*y3
     if ccw < 0:
         return -1
