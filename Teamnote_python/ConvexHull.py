@@ -1,4 +1,8 @@
-from Math import atan2
+from math import atan2
+from sys import stdin
+input = stdin.readline
+isi = lambda: map(int, input().rstrip().split())
+ii = lambda: int(input().rstrip())
 
 def ccw(dot1, dot2, dot3):
     x1, y1, _ = dot1
