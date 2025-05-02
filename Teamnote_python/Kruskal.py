@@ -22,16 +22,14 @@ class DisjointSet:
 
 def kruskal(n, edges):
     ds = DisjointSet(n)
-    w = 0
     e = []
 
     edges.sort(key=lambda x:x[2])
 
-    for weight, u, v in edges:
+    for w, u, v in edges:
         if not ds.is_union(u, v):
             ds.union(u, v)
-            w += weight
-            e.append((u, v, weight))
+            e.append((u, v, w))
 
     return w, e
 
@@ -42,4 +40,4 @@ for _ in range(M):
     u, v, w = map(int, input().split())
     edges.append((u, v, w))
 
-w, e = kruskal(N, edges)
+edges = kruskal(N, edges)
