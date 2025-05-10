@@ -25,6 +25,11 @@ int main() {
     while (T--) {
         solve();
     }
+
+    #ifndef ONLINE_JUDGE
+    cout << flush;
+    system("pause");
+    #endif
     
     return 0;
 }
