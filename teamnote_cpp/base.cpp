@@ -7,6 +7,8 @@ void init(){
     cin.tie(0);
     cout.tie(0);
     ios_base::sync_with_stdio(false);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 }
 
 int solve() {
@@ -25,11 +27,6 @@ int main() {
     while (T--) {
         solve();
     }
-
-    #ifndef ONLINE_JUDGE
-    cout << flush;
-    system("pause");
-    #endif
     
     return 0;
 }
