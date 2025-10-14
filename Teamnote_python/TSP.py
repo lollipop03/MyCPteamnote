@@ -1,27 +1,29 @@
 INF = float('inf')
 
 def TSP(now, visited):
-    if visited == bit_range - 1: # final
-        if adjacent[now][0] != 0:
-            return adjacent[now][0]
+    if visited == alll:
+        if cost[now][0] != 0:
+            return cost[now][0]
         else:
             return INF
 
-    if (now, visited) in dp: # memo
+    if (now, visited) in dp:
         return dp[(now, visited)]
 
     min_cost = INF
-    for i in range(n):
-        if adjacent[now][i] == 0:
+    for next in range(n):
+        if cost[now][next] == 0 or (visited & (1 << next)):
             continue
-        if (1<<i) & visited == 0:
-            min_cost = min(TSP(i, (visited | 1<<i)) + adjacent[now][i], min_cost)
+        cost = TSP(next, visited | (1 << next)) + cost[now][next]
+        
+        min_cost = min(min_cost, cost)
+
     dp[(now, visited)] = min_cost
     return min_cost
 
-n = int(input())
-adjacent = [list(map(int, input().split())) for _ in range(n)] # adjacent
-bit_range = 1 << n
-dp = {}
+n = ii()
+cost = [list(isi()) for _ in range(n)]
 
-print(TSP(0, 1, adjacent))
+alll = (1 << n) - 1
+dp = {}
+result = TSP(0, 1)

@@ -13,3 +13,17 @@ for i in range(2, Target + 1):
             break
         for j in range(i * i, Target + 1, i):
             check[j] = False
+
+def prime_factorization(n, primes):
+    factors = {}
+    for p in primes:
+        if p * p > n: break
+
+        while n % p == 0:
+            factors[p] = factors.get(p, 0) + 1
+            n //= p
+            
+    if n > 1:
+        factors[n] = factors.get(n, 0) + 1
+        
+    return factors

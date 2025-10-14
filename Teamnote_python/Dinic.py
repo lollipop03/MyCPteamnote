@@ -1,3 +1,4 @@
+'''Dinic'''
 from collections import deque
 
 def addEdge(edge, u, v, cap):

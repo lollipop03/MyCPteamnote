@@ -19,8 +19,6 @@ def LCstr(string_A, string_B, dp):
 
     return dp, lcs
 
-	
-
 string_A = list(input())
 string_B = list(input())
 

@@ -9,7 +9,7 @@ def millerRabin(n, a):
       return True
     k = k >> 1
   # last odd number(k = m)
-  mod = pow(a, k, n)
+  mod = pow(a, k, n)  
   return mod == n-1 or mod == 1
 
 def isPrime(n):
