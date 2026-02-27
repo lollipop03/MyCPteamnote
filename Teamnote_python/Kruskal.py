@@ -4,9 +4,16 @@ class DisjointSet:
         self.parent = [i for i in range(n)]
     
     def find(self, index1):
-        if self.parent[index1] != index1:
-            self.parent[index1] = self.find(self.parent[index1])
-        return self.parent[index1]
+        root = index1
+        while self.parent[root] != root: root = self.parent[root]
+        
+        curr = index1
+        while self.parent[curr] != root:
+            next_node = self.parent[curr]
+            self.parent[curr] = root
+            curr = next_node
+            
+        return root
 
     def union(self, index1, index2):
         root1 = self.find(index1)
@@ -26,12 +33,13 @@ def kruskal(n, edges):
 
     edges.sort(key=lambda x:x[2])
 
-    for w, u, v in edges:
+    for u, v, w in edges:
         if not ds.is_union(u, v):
             ds.union(u, v)
             e.append((u, v, w))
 
     return w, e
+
 
 N, M = map(int, input().split())
 edges = []

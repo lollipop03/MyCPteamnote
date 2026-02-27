@@ -21,8 +21,8 @@ def TSP(now, visited):
     dp[(now, visited)] = min_cost
     return min_cost
 
-n = ii()
-cost = [list(isi()) for _ in range(n)]
+n = int(input())
+cost = [list(map(int, input().split())) for _ in range(n)]
 
 alll = (1 << n) - 1
 dp = {}
